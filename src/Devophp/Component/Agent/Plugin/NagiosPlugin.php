@@ -19,6 +19,7 @@ class NagiosPlugin extends BasePlugin
     {
         $check = $parameters['check'];
         $arguments = $parameters['arguments'];
+        $checkdefinitionname = $parameters['checkdefinitionname'];
         
         $this->info("NagiosCheck:" . $check . "/" . $arguments);
         
@@ -26,13 +27,20 @@ class NagiosPlugin extends BasePlugin
         
         $this->info("ServiceOutput: " . $response->getServiceOutput() . " (code: " . $response->getStatusCode() . ")");
         
-        $res = array();
-        $res['statuscode'] = $response->getStatusCode();
-        $res['statuslabel'] = $response->getStatusText();
+        $parameters = array();
+        $parameters['statuscode'] = $response->getStatusCode();
+        $parameters['statuslabel'] = $response->getStatusText();
         
-        $res['serviceoutput'] = $response->getServiceOutput();
-        $res['serviceperfdata'] = $response->getServicePerfData();
+        $parameters['serviceoutput'] = $response->getServiceOutput();
+        $parameters['serviceperfdata'] = $response->getServicePerfData();
+        $parameters['hostname'] = gethostname();
+        $parameters['checkdefinitionname'] = $checkdefinitionname;
         
-        $this->sendMessage($res);
+        $message = array();
+        $message['command'] = "monitor:checkreport";
+        $message['from'] = gethostname();
+        $message['parameters'] = $parameters;
+        
+        $this->sendMessage($message, '/queue/devophp/monitor');
     }
 }
