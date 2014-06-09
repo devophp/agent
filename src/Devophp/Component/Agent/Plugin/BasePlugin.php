@@ -17,9 +17,9 @@ abstract class BasePlugin
         $this->transport = $transport;
     }
 
-    public function sendMessage($data)
+    public function sendMessage($data, $queue)
     {
-        $this->transport->sendMessage($data);
+        $this->transport->sendMessage($data, $queue);
     }
 
     public function warning($message, $context = array())

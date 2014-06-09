@@ -45,7 +45,7 @@ class StompTransport implements TransportInterface
         //$properties = array('selector' => "username='" . $username . "'");
         $properties = null;
 
-        $destination = '/queue/' . 'prefix/' . 'test';
+        $destination = '/queue/' . 'devophp/' . 'agents';
         $this->stomp->subscribe($destination, $properties);
         
     }
@@ -63,9 +63,9 @@ class StompTransport implements TransportInterface
 
     }
     
-    public function sendMessage($data)
+    public function sendMessage($data, $queuename)
     {
         $messagejson = json_encode($data);
-        $this->stomp->send('/queue/server/test', $messagejson);
+        $this->stomp->send($queuename, $messagejson);
     }
 }

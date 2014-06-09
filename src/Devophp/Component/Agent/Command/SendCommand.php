@@ -42,7 +42,7 @@ class SendCommand extends Command
             $parameters = json_decode($parameterjson);
         }
         
-        $destination = '/queue/' . 'prefix/' . 'test';
+        $destination = '/queue/' . 'devophp/' . 'agents';
         $output->write("Sending command '$command' with parameters '" . json_encode($parameters) . " to '$destination'\n");
 
         $properties = array('selector' => "username='" . $username . "'");
