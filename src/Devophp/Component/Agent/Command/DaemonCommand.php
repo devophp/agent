@@ -39,7 +39,19 @@ class DaemonCommand extends Command
         $transport->init($logger);
         $transport->connect();
         
-        // setup handlers
+        $message = array();
+        $hostname = gethostname();
+        
+        $message['command'] = 'monitor:register';
+        $message['from'] = $hostname;
+        
+        $parameters['hostname'] = $hostname;
+        $parameters['os'] = 'darwin';
+        $message['parameters'] = $parameters;
+        
+        $transport->sendMessage($message, '/queue/devophp/monitor');
+        
+        // setup plugins
         $nagiosplugin = new \Devophp\Component\Agent\Plugin\NagiosPlugin();
         $nagiosplugin->init($logger, $transport);
         $this->plugin['nagios'] = $nagiosplugin;
