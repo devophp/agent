@@ -1,0 +1,13 @@
+#!/usr/bin/env php
+<?php
+
+// app/console
+
+use Symfony\Component\Console\Application;
+
+require_once(__DIR__ . "/../vendor/autoload.php");
+$application = new Application('Devophp agent console tool', '1.0.0');
+$application->setCatchExceptions(false);
+$application->add(new \Devophp\Component\Agent\Command\DaemonCommand());
+$application->add(new \Devophp\Component\Agent\Command\SendCommand());
+$application->run();
